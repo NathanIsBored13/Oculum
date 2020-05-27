@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ocpch.h"
+#include "Log.h"
 #include "Core.h"
 
 namespace Oculum

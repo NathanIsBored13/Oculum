@@ -11,5 +11,5 @@ public:
 
 Oculum::Application* Oculum::CreateApplication()
 {
-	return new Sandbox();
+    return new Sandbox();
 }
