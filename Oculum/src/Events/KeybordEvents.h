@@ -20,8 +20,9 @@ namespace Oculum
 		KeyPressedEvent(int, int, bool);
 		~KeyPressedEvent();
 		virtual const char* GetName() override;
-		virtual const char* GetString() override;
+		virtual const std::string GetString() override;
 		virtual Type GetType() override;
+		static Type GetStaticType();
 		bool IsRepeat();
 	private:
 		bool isRepeat;
@@ -33,7 +34,8 @@ namespace Oculum
 		KeyReleasedEvent(int, int);
 		~KeyReleasedEvent();
 		virtual const char* GetName() override;
-		virtual const char* GetString() override;
+		virtual const std::string GetString() override;
 		virtual Type GetType() override;
+		static Type GetStaticType();
 	};
 }

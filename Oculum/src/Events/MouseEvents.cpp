@@ -35,14 +35,19 @@ namespace Oculum
 		return "MouseButtonPressedEvent";
 	}
 
-	const char* MouseButtonPressedEvent::GetString()
+	const std::string MouseButtonPressedEvent::GetString()
 	{
 		std::stringstream ss;
 		ss << "Window [" << GetWindowID() << "] had mouse button " << GetButton() << " pressed";
-		return ss.str().c_str();
+		return ss.str();
 	}
 
 	Event::Type MouseButtonPressedEvent::GetType()
+	{
+		return Event::Type::MouseButtonPressed;
+	}
+
+	Event::Type MouseButtonPressedEvent::GetStaticType()
 	{
 		return Event::Type::MouseButtonPressed;
 	}
@@ -62,14 +67,19 @@ namespace Oculum
 		return "MouseButtonReleasedEvent";
 	}
 
-	const char* MouseButtonReleasedEvent::GetString()
+	const std::string MouseButtonReleasedEvent::GetString()
 	{
 		std::stringstream ss;
 		ss << "Window [" << GetWindowID() << "] had mouse button " << GetButton() << " released";
-		return ss.str().c_str();
+		return ss.str();
 	}
 
 	Event::Type MouseButtonReleasedEvent::GetType()
+	{
+		return GetStaticType();
+	}
+
+	Event::Type MouseButtonReleasedEvent::GetStaticType()
 	{
 		return Event::Type::MouseButtonReleased;
 	}

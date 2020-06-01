@@ -7,7 +7,10 @@ namespace Oculum
 {
 	Application::Application()
 	{
-
+		TestEntity e = TestEntity();
+		IEventListener* i = &e;
+		i->OnEvent(new WindowResizedEvent(0, 100, 100));
+		i->OnEvent(new WindowCloseEvent(1));
 	}
 
 	Application::~Application()

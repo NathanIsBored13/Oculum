@@ -18,7 +18,7 @@ namespace Oculum
 		virtual ~Event();
 		int GetWindowID() noexcept;
 		virtual const char* GetName() = 0;
-		virtual const char* GetString() = 0;
+		virtual const std::string GetString() = 0;
 		virtual Type GetType() = 0;
 		void Handled();
 		bool IsHandled();

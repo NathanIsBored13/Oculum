@@ -35,14 +35,19 @@ namespace Oculum
 		return "KeyPressedEvent";
 	}
 
-	const char* KeyPressedEvent::GetString()
+	const std::string KeyPressedEvent::GetString()
 	{
 		std::stringstream ss;
 		ss << "Window [" << GetWindowID() << "] had key " << GetKey() << " pressed";
-		return ss.str().c_str();
+		return ss.str();
 	}
 
 	Event::Type KeyPressedEvent::GetType()
+	{
+		return GetStaticType();
+	}
+
+	Event::Type KeyPressedEvent::GetStaticType()
 	{
 		return Event::Type::KeyPressed;
 	}
@@ -67,14 +72,19 @@ namespace Oculum
 		return "KeyReleasedEvent";
 	}
 
-	const char* KeyReleasedEvent::GetString()
+	const std::string KeyReleasedEvent::GetString()
 	{
 		std::stringstream ss;
 		ss << "Window [" << GetWindowID() << "] had key " << GetKey() << " released";
-		return ss.str().c_str();
+		return ss.str();
 	}
 
 	Event::Type KeyReleasedEvent::GetType()
+	{
+		return GetStaticType();
+	}
+
+	Event::Type KeyReleasedEvent::GetStaticType()
 	{
 		return Event::Type::KeyReleased;
 	}

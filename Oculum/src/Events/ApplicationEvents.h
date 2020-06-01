@@ -10,8 +10,9 @@ namespace Oculum
 		WindowCloseEvent(int);
 		~WindowCloseEvent();
 		virtual const char* GetName() override;
-		virtual const char* GetString() override;
+		virtual const std::string GetString() override;
 		virtual Type GetType() override;
+		static Type GetStaticType();
 	};
 
 	class OC_API WindowResizedEvent : public Event
@@ -20,8 +21,9 @@ namespace Oculum
 		WindowResizedEvent(int, int, int);
 		~WindowResizedEvent();
 		virtual const char* GetName() override;
-		virtual const char* GetString() override;
+		virtual const std::string GetString() override;
 		virtual Type GetType() override;
+		static Type GetStaticType();
 		int GetX();
 		int GetY();
 	private:
@@ -34,8 +36,9 @@ namespace Oculum
 		WindowFocusGainedEvent(int);
 		~WindowFocusGainedEvent();
 		virtual const char* GetName() override;
-		virtual const char* GetString() override;
+		virtual const std::string GetString() override;
 		virtual Type GetType() override;
+		static Type GetStaticType();
 	};
 
 	class OC_API WindowFocusLostEvent : public Event
@@ -44,8 +47,9 @@ namespace Oculum
 		WindowFocusLostEvent(int);
 		~WindowFocusLostEvent();
 		virtual const char* GetName() override;
-		virtual const char* GetString() override;
+		virtual const std::string GetString() override;
 		virtual Type GetType() override;
+		static Type GetStaticType();
 	};
 
 	class OC_API WindowMovedEvent : public Event
@@ -54,8 +58,9 @@ namespace Oculum
 		WindowMovedEvent(int, int, int);
 		~WindowMovedEvent();
 		virtual const char* GetName() override;
-		virtual const char* GetString() override;
+		virtual const std::string GetString() override;
 		virtual Type GetType() override;
+		static Type GetStaticType();
 		int GetX();
 		int GetY();
 	private:

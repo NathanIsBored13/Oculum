@@ -20,8 +20,9 @@ namespace Oculum
 		MouseButtonPressedEvent(int, bool);
 		~MouseButtonPressedEvent();
 		virtual const char* GetName() override;
-		virtual const char* GetString() override;
+		virtual const std::string GetString() override;
 		virtual Type GetType() override;
+		static Type GetStaticType();
 	};
 
 	class OC_API MouseButtonReleasedEvent : public MouseButtonEvent
@@ -30,7 +31,8 @@ namespace Oculum
 		MouseButtonReleasedEvent(int, bool);
 		~MouseButtonReleasedEvent();
 		virtual const char* GetName() override;
-		virtual const char* GetString() override;
+		virtual const std::string GetString() override;
 		virtual Type GetType() override;
+		static Type GetStaticType();
 	};
 }

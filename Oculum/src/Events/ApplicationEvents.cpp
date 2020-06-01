@@ -20,14 +20,19 @@ namespace Oculum
 		return "WindowCloseEvent";
 	}
 
-	const char* WindowCloseEvent::GetString()
+	const std::string WindowCloseEvent::GetString()
 	{
 		std::stringstream ss;
 		ss << "Window [" << GetWindowID() << "] was closed";
-		return ss.str().c_str();
+		return ss.str();
 	}
 
 	Event::Type WindowCloseEvent::GetType()
+	{
+		return GetStaticType();
+	}
+
+	Event::Type WindowCloseEvent::GetStaticType()
 	{
 		return Event::Type::WindowClose;
 	}
@@ -47,7 +52,7 @@ namespace Oculum
 		return "WindowResizedEvent";
 	}
 
-	const char* WindowResizedEvent::GetString()
+	const std::string WindowResizedEvent::GetString()
 	{
 		std::stringstream ss;
 		ss << "Window [" << GetWindowID() << "] was resized to [" << GetX() << ", " << GetY() << "]";
@@ -55,6 +60,11 @@ namespace Oculum
 	}
 
 	Event::Type WindowResizedEvent::GetType()
+	{
+		return GetStaticType();
+	}
+
+	Event::Type WindowResizedEvent::GetStaticType()
 	{
 		return Event::Type::WindowResize;
 	}
@@ -84,14 +94,19 @@ namespace Oculum
 		return "WindowFocusGainedEvent";
 	}
 
-	const char* WindowFocusGainedEvent::GetString()
+	const std::string WindowFocusGainedEvent::GetString()
 	{
 		std::stringstream ss;
 		ss << "Window [" << GetWindowID() << "] gained focus";
-		return ss.str().c_str();
+		return ss.str();
 	}
 
 	Event::Type WindowFocusGainedEvent::GetType()
+	{
+		return GetStaticType();
+	}
+
+	Event::Type WindowFocusGainedEvent::GetStaticType()
 	{
 		return Event::Type::WindowFocusGained;
 	}
@@ -111,14 +126,19 @@ namespace Oculum
 		return "WindowFocusLostEvent";
 	}
 
-	const char* WindowFocusLostEvent::GetString()
+	const std::string WindowFocusLostEvent::GetString()
 	{
 		std::stringstream ss;
 		ss << "Window [" << GetWindowID() << "] lost focus";
-		return ss.str().c_str();
+		return ss.str();
 	}
 
 	Event::Type WindowFocusLostEvent::GetType()
+	{
+		return GetStaticType();
+	}
+
+	Event::Type WindowFocusLostEvent::GetStaticType()
 	{
 		return Event::Type::WindowFocusLost;
 	}
@@ -138,14 +158,19 @@ namespace Oculum
 		return "WindowMovedEvent";
 	}
 
-	const char* WindowMovedEvent::GetString()
+	const std::string WindowMovedEvent::GetString()
 	{
 		std::stringstream ss;
 		ss << "Window [" << GetWindowID() << "] was moved to [" << GetX() << ", " << GetY() << "]";
-		return ss.str().c_str();
+		return ss.str();
 	}
 
 	Event::Type WindowMovedEvent::GetType()
+	{
+		return GetStaticType();
+	}
+
+	Event::Type WindowMovedEvent::GetStaticType()
 	{
 		return Event::Type::WindowMoved;
 	}
