@@ -49,14 +49,17 @@ project "Oculum"
 
 	filter "configurations:Debug"
 		defines "OC_DEBUG"
+		buildoptions "/MDd"
 		symbols "On"
 
 	filter "configurations:Release"
 		defines "OC_RELEASE"
+		buildoptions "/MD"
 		optimize "On"
 
 	filter "configurations:Dist"
 		defines "OC_DIST"
+		buildoptions "/MD"
 		optimize "On"
 
 project "Sandbox"
@@ -89,12 +92,15 @@ project "Sandbox"
 
 	filter "configurations:Debug"
 		defines "OC_DEBUG"
+		buildoptions "/MDd"
 		symbols "On"
 
 	filter "configurations:Release"
 		defines "OC_RELEASE"
+		buildoptions "/MD"
 		optimize "On"
 
 	filter "configurations:Dist"
 		defines "OC_DIST"
+		buildoptions "/MD"
 		optimize "On"
