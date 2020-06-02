@@ -19,7 +19,7 @@ namespace Oculum
 	#define OC_INFO(...) ::Oculum::Log::Info(__VA_ARGS__)
 	#define OC_WARN(...) ::Oculum::Log::Warn(__VA_ARGS__)
 	#define OC_ERROR(...) ::Oculum::Log::Error(__VA_ARGS__)
-	class OC_API Log
+	class Log
 	{
 	public:
 		static void Trace(const char*, ...);
@@ -30,8 +30,8 @@ namespace Oculum
 		Log();
 		~Log();
 		void Print(const char*, const char*, va_list);
+		const std::chrono::steady_clock::time_point clk;
 		static Log log;
-		const std::chrono::time_point<std::chrono::steady_clock, std::chrono::nanoseconds> clk;
 	};
 #else
 	#define OC_TRACE(...)

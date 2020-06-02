@@ -13,7 +13,7 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 project "Oculum"
 	location "Oculum"
-	kind "SharedLib"
+	kind "StaticLib"
 	language "C++"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
@@ -31,35 +31,22 @@ project "Oculum"
 	cppdialect "C++17"
 	staticruntime "On"
 	systemversion "latest"
-
-	defines
-	{
-		"OC_BUILD_DLL"
-	}
 	
 	includedirs
 	{
 		"%{prj.name}"
 	}
 
-	postbuildcommands
-	{
-		("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox")
-	}
-
 	filter "configurations:Debug"
 		defines "OC_DEBUG"
-		buildoptions "/MDd"
 		symbols "On"
 
 	filter "configurations:Release"
 		defines "OC_RELEASE"
-		buildoptions "/MD"
 		optimize "On"
 
 	filter "configurations:Dist"
 		defines "OC_DIST"
-		buildoptions "/MD"
 		optimize "On"
 
 project "Sandbox"
@@ -92,15 +79,12 @@ project "Sandbox"
 
 	filter "configurations:Debug"
 		defines "OC_DEBUG"
-		buildoptions "/MDd"
 		symbols "On"
 
 	filter "configurations:Release"
 		defines "OC_RELEASE"
-		buildoptions "/MD"
 		optimize "On"
 
 	filter "configurations:Dist"
 		defines "OC_DIST"
-		buildoptions "/MD"
 		optimize "On"

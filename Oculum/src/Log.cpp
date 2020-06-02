@@ -11,9 +11,14 @@ namespace Oculum
 		AllocConsole();
 		AttachConsole(GetCurrentProcessId());
 
+#pragma warning(push)
+#pragma warning(disable: 4996)
 		freopen("CON", "w", stdout);
 		freopen("CON", "w", stderr);
 		freopen("CON", "r", stdin);
+#pragma warning (pop)
+
+		OC_INFO("Logger Initialised");
 	}
 
 	Log::~Log()
@@ -56,6 +61,8 @@ namespace Oculum
 	void Log::Print(const char* fmt, const char* level, va_list args)
 	{
 		__int64 t_micro = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now() - clk).count();
+		int t_hour = (int)std::floor(t_micro / 3600000000);
+		t_micro -= (__int64)t_hour * 3600000000;
 		int t_min = (int)std::floor(t_micro / 60000000);
 		t_micro -= (__int64)t_min * 60000000;
 		int t_sec = (int)(std::floor(t_micro / 1000000));
@@ -63,7 +70,7 @@ namespace Oculum
 		int t_mili = (int)std::floor(t_micro / 1000);
 		t_micro -= (__int64)t_mili * 1000;
 
-		std::cout << (t_min < 10 ? "[0" : "[") << t_min << (t_sec < 10 ? ", 0" : ", ") << t_sec << (t_mili < 100 ? (t_mili < 10 ? ", 00" : ", 0") : ", ") << t_mili << (t_micro < 100 ? (t_micro < 10 ? ", 00" : ", 0") : ", ") << t_micro << "] " << level << " : ";
+		std::cout << (t_hour < 10 ? "[0" : "[") << t_hour << (t_min < 10 ? ", 0" : ", ") << t_min << (t_sec < 10 ? ", 0" : ", ") << t_sec << (t_mili < 100 ? (t_mili < 10 ? ", 00" : ", 0") : ", ") << t_mili << (t_micro < 100 ? (t_micro < 10 ? ", 00" : ", 0") : ", ") << t_micro << "] " << level << " : ";
 
 		size_t len = std::strlen(fmt);
 		char* mod = new char[len + 2];

@@ -4,6 +4,7 @@
 
 #include "Core.h"
 #include "Event.h"
+#include "Events/ApplicationEvents.h"
 
 namespace Oculum
 {
@@ -63,3 +64,8 @@ namespace Oculum
 		std::vector<DispatcherTypeless*> dispatchers;
 	};
 }
+
+//template  class std::vector<Oculum::IEventListener::DispatcherTypeless*> dispatchers;
+
+//template class Oculum::IEventListener::Dispatcher<Oculum::WindowCloseEvent>;
+//template  class Oculum::IEventListener::Dispatcher<Oculum::WindowResizedEvent>;

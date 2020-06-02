@@ -4,7 +4,7 @@
 
 namespace Oculum
 {
-	class OC_API Event
+	class Event
 	{
 	public:
 		enum class Type

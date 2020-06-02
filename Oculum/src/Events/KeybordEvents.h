@@ -4,7 +4,7 @@
 
 namespace Oculum
 {
-	class OC_API KeyEvent : public Event
+	class KeyEvent : public Event
 	{
 	public:
 		KeyEvent(int, int);
@@ -14,7 +14,7 @@ namespace Oculum
 		int keyCode;
 	};
 
-	class OC_API KeyPressedEvent : public KeyEvent
+	class KeyPressedEvent : public KeyEvent
 	{
 	public:
 		KeyPressedEvent(int, int, bool);
@@ -28,7 +28,7 @@ namespace Oculum
 		bool isRepeat;
 	};
 
-	class OC_API KeyReleasedEvent : public KeyEvent
+	class KeyReleasedEvent : public KeyEvent
 	{
 	public:
 		KeyReleasedEvent(int, int);

@@ -5,10 +5,32 @@
 
 namespace Oculum
 {
+	Application::TestEntity::TestEntity()
+	{
+		SubscribeEvent<WindowCloseEvent>(std::bind(&Application::TestEntity::OnClose, this, std::placeholders::_1));
+		SubscribeEvent<WindowResizedEvent>(std::bind(&Application::TestEntity::OnResize, this, std::placeholders::_1));
+	}
+
+	Application::TestEntity::~TestEntity()
+	{
+
+	}
+
+	bool Application::TestEntity::OnClose(WindowCloseEvent* e)
+	{
+		OC_TRACE("%s", e->GetString().c_str());
+		return true;
+	}
+
+	bool Application::TestEntity::OnResize(WindowResizedEvent* e)
+	{
+		OC_TRACE("%s", e->GetString().c_str());
+		return true;
+	}
+
 	Application::Application()
 	{
-		TestEntity e = TestEntity();
-		IEventListener* i = &e;
+		IEventListener* i = new TestEntity();
 		i->OnEvent(new WindowResizedEvent(0, 100, 100));
 		i->OnEvent(new WindowCloseEvent(1));
 	}

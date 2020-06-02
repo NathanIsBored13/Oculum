@@ -4,7 +4,7 @@
 
 namespace Oculum
 {
-	class OC_API WindowCloseEvent : public Event
+	class WindowCloseEvent : public Event
 	{
 	public:
 		WindowCloseEvent(int);
@@ -15,7 +15,7 @@ namespace Oculum
 		static Type GetStaticType();
 	};
 
-	class OC_API WindowResizedEvent : public Event
+	class WindowResizedEvent : public Event
 	{
 	public:
 		WindowResizedEvent(int, int, int);
@@ -30,7 +30,7 @@ namespace Oculum
 		int x, y;
 	};
 
-	class OC_API WindowFocusGainedEvent : public Event
+	class WindowFocusGainedEvent : public Event
 	{
 	public:
 		WindowFocusGainedEvent(int);
@@ -41,7 +41,7 @@ namespace Oculum
 		static Type GetStaticType();
 	};
 
-	class OC_API WindowFocusLostEvent : public Event
+	class WindowFocusLostEvent : public Event
 	{
 	public:
 		WindowFocusLostEvent(int);
@@ -52,7 +52,7 @@ namespace Oculum
 		static Type GetStaticType();
 	};
 
-	class OC_API WindowMovedEvent : public Event
+	class WindowMovedEvent : public Event
 	{
 	public:
 		WindowMovedEvent(int, int, int);

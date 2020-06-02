@@ -4,7 +4,7 @@
 
 namespace Oculum
 {
-	class OC_API MouseButtonEvent : public Event
+	class MouseButtonEvent : public Event
 	{
 	public:
 		MouseButtonEvent(int, bool);
@@ -14,7 +14,7 @@ namespace Oculum
 		bool button;
 	};
 
-	class OC_API MouseButtonPressedEvent : public MouseButtonEvent
+	class MouseButtonPressedEvent : public MouseButtonEvent
 	{
 	public:
 		MouseButtonPressedEvent(int, bool);
@@ -25,7 +25,7 @@ namespace Oculum
 		static Type GetStaticType();
 	};
 
-	class OC_API MouseButtonReleasedEvent : public MouseButtonEvent
+	class MouseButtonReleasedEvent : public MouseButtonEvent
 	{
 	public:
 		MouseButtonReleasedEvent(int, bool);
