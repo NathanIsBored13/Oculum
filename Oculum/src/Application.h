@@ -3,7 +3,7 @@
 #include "ocpch.h"
 
 #include "Core.h"
-#include "IEventListener.h"
+#include "IEntity.h"
 #include "Log.h"
 #include "Events/ApplicationEvents.h"
 
@@ -16,14 +16,26 @@ namespace Oculum
 		virtual ~Application();
 		void Run();
 	private:
-		class TestEntity : public IEventListener
+		class TestListener : public IEventListener
 		{
 		public:
-			TestEntity();
-			~TestEntity();
+			TestListener();
+			~TestListener();
 		private:
 			bool OnClose(WindowCloseEvent*);
 			bool OnResize(WindowResizedEvent*);
+		};
+
+		class TestEntity : public IEntity
+		{
+		public:
+			TestEntity(const char*);
+			~TestEntity();
+			void OnUpdate(float) override;
+			void OnRender() override;
+			void OnEvent(Event* e) override;
+		private:
+			const char* name;
 		};
 		bool running = true;
 	};
