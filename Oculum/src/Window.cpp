@@ -1,6 +1,8 @@
 #include "ocpch.h"
 #include "Window.h"
 
+#include "Events/MouseEvents.h"
+
 namespace Oculum
 {
 	Window::WindowTemplate Window::WindowTemplate::wndClass;
@@ -40,8 +42,12 @@ namespace Oculum
 		return wndClass.hInst;
 	}
 
-	Window::Window(const wchar_t* name, int width, int height) : width(width), height(height), name(name)
+	Window::Window(const wchar_t* name, int width, int height, Window* parent) : width(width), height(height), name(name), parent(parent)
 	{
+		if (parent != nullptr)
+		{
+			parent->AddChild(this);
+		}
 		RECT wr
 		{
 			100,
@@ -52,10 +58,47 @@ namespace Oculum
 		AdjustWindowRect(&wr, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, FALSE);
 		hWnd = CreateWindowEx(0, WindowTemplate::GetName(), name, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, CW_USEDEFAULT, CW_USEDEFAULT, wr.right - wr.left, wr.bottom - wr.top, nullptr, nullptr, WindowTemplate::GetInstance(), this);
 		ShowWindow(hWnd, SW_SHOWDEFAULT);
+		stack = LayerStack();
 	}
 
 	Window::~Window()
 	{
+
+	}
+
+	void Window::OnUpdate(float fElapsed)
+	{
+		stack.OnUpdate(fElapsed);
+		OnUpdateClient(fElapsed);
+	}
+
+	void Window::AddChild(Window* child)
+	{
+		children.push_back(child);
+	}
+
+	void Window::RemoveChild(Window* child)
+	{
+		for (size_t i = 0; i < children.size(); i++)
+		{
+			if (children[i] == child)
+			{
+				children.erase(children.begin() + i);
+			}
+		}
+	}
+
+	void Window::CloseWindow(int ExitCode)
+	{
+		if (parent != nullptr && ExitCode != 1)
+		{
+			parent->RemoveChild(this);
+		}
+		for (Window* wnd : children)
+		{
+			wnd->CloseWindow(1);
+		}
+		DestroyWindow(hWnd);
 	}
 
 	LRESULT CALLBACK Window::HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)  noexcept
@@ -85,11 +128,20 @@ namespace Oculum
 	{
 		switch (msg)
 		{
+		case WM_CLOSE:
+			if (OnClose())
+			{
+				CloseWindow(0);
+			}
+			return 0;
+			break;
 		case WM_DESTROY:
-			PostQuitMessage(0);
+			PostMessage(nullptr, WM_QUIT, 0, reinterpret_cast<LONG_PTR>(this));
+			break;
+		case WM_MOUSEMOVE:
+			stack.OnEvent(new MouseMovedEvent(0, (int)LOWORD(lParam), (int)HIWORD(lParam)));
 			break;
 		}
 		return DefWindowProc(hWnd, msg, wParam, lParam);
 	}
-
 }

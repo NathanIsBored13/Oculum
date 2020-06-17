@@ -5,6 +5,48 @@
 
 namespace Oculum
 {
+	MouseMovedEvent::MouseMovedEvent(int WindowID, int x, int y) : Event(WindowID), x(x), y(y)
+	{
+
+	}
+
+	MouseMovedEvent::~MouseMovedEvent()
+	{
+
+	}
+
+	const char* MouseMovedEvent::GetName()
+	{
+		return "MouseMovedEvent";
+	}
+
+	const std::string MouseMovedEvent::GetString()
+	{
+		std::stringstream ss;
+		ss << "Window [" << GetWindowID() << "] had mouse moved to position [" << x << ", " << y << "]";
+		return ss.str();
+	}
+
+	Event::Type MouseMovedEvent::GetType()
+	{
+		return GetStaticType();
+	}
+
+	Event::Type MouseMovedEvent::GetStaticType()
+	{
+		return Event::Type::MouseMoved;
+	}
+
+	int MouseMovedEvent::GetX()
+	{
+		return x;
+	}
+
+	int MouseMovedEvent::GetY()
+	{
+		return y;
+	}
+
 	MouseButtonEvent::MouseButtonEvent(int windowID, bool button) : Event(windowID), button(button)
 	{
 

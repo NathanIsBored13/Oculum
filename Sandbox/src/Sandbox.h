@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Oculum.h"
+#include "src/EntryPoint.h"
+#include "MainWindow.h"
 
 class Sandbox : public Oculum::Application
 {

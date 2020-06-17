@@ -1,15 +1,13 @@
 #include "ocpch.h"
 #include "Application.h"
 
-#include "LayerStack.h"
-
 #include <chrono>
 
 namespace Oculum
 {
 	Application::Application()
 	{
-		wnds.RegisterWindow(new Window(L"Main Window", 400, 400));
+
 	}
 
 	Application::~Application()
@@ -19,13 +17,23 @@ namespace Oculum
 
 	void Application::Run()
 	{
-		std::chrono::steady_clock::time_point mark = std::chrono::steady_clock::now();
+		std::chrono::steady_clock::time_point clk = std::chrono::steady_clock::now();
 		while (running)
 		{
-			if (wnds.ProcessMessages())
+			if (windows.ProcessMessages() && windows.GetRunningWindows() == 0)
 			{
-				running = false;
+				OC_INFO("all windows closed");
+			}
+			else if (float fElapsed = std::chrono::duration<float>(std::chrono::steady_clock::now() - clk).count() > 5)
+			{
+				clk = std::chrono::steady_clock::now();
+				windows.OnUpdate(fElapsed);
 			}
 		}
+	}
+
+	WindowManager* Application::GetManager()
+	{
+		return &windows;
 	}
 }

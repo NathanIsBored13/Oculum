@@ -7,5 +7,3 @@
 #include "src/IEventListener.h"
 #include "src/Log.h"
 #include "src/Win32.h"
-
-#include "src/EntryPoint.h"

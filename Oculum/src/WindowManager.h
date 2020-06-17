@@ -13,7 +13,9 @@ namespace Oculum
 		WindowManager();
 		~WindowManager();
 		std::optional<WPARAM> ProcessMessages();
+		void OnUpdate(float);
 		void RegisterWindow(Window* wnd);
+		size_t GetRunningWindows();
 	private:
 		std::vector<Window*> wnds;
 	};

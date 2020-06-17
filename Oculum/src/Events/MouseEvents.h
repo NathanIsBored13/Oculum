@@ -4,6 +4,21 @@
 
 namespace Oculum
 {
+	class MouseMovedEvent : public Event
+	{
+	public:
+		MouseMovedEvent(int, int, int);
+		~MouseMovedEvent();
+		virtual const char* GetName() override;
+		virtual const std::string GetString() override;
+		virtual Type GetType() override;
+		static Type GetStaticType();
+		int GetX();
+		int GetY();
+	private:
+		int x, y;
+	};
+
 	class MouseButtonEvent : public Event
 	{
 	public:

@@ -7,8 +7,14 @@ namespace Oculum
 	class Window
 	{
 	public:
-		Window(const wchar_t*, int, int);
-		~Window();
+		Window(const wchar_t*, int, int, Window*);
+		virtual ~Window();
+		virtual void OnUpdate(float);
+		virtual void OnUpdateClient(float) = 0;
+		virtual bool OnClose() = 0;
+		void AddChild(Window*);
+		void RemoveChild(Window*);
+		void CloseWindow(int);
 	private:
 		class WindowTemplate
 		{
@@ -29,6 +35,8 @@ namespace Oculum
 		LRESULT HandleMsg(HWND, UINT, WPARAM, LPARAM) noexcept;
 		HWND hWnd;
 		LayerStack stack;
+		Window* parent;
+		std::vector<Window*> children;
 		const wchar_t* name;
 		int width, height;
 	};

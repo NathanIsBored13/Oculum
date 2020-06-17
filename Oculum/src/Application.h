@@ -15,9 +15,10 @@ namespace Oculum
 		Application();
 		virtual ~Application();
 		void Run();
+		WindowManager* GetManager();
 	private:
 		bool running = true;
-		WindowManager wnds;
+		WindowManager windows;
 	};
 	Application* CreateApplication();
 }
