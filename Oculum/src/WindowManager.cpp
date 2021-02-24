@@ -22,14 +22,9 @@ namespace Oculum
 			if (msg.message == WM_QUIT)
 			{
 				ret = msg.wParam;
-				for (size_t i = 0; i < wnds.size(); i++)
-				{
-					if (wnds[i] == reinterpret_cast<Window*>(msg.lParam))
-					{
-						wnds.erase(wnds.begin() + i);
-					}
-				}
-				delete reinterpret_cast<Window*>(msg.lParam);
+				Window* window = reinterpret_cast<Window*>(msg.lParam);
+				UnregisterWindow(window);
+				delete window;
 			}
 			else
 			{
@@ -51,6 +46,17 @@ namespace Oculum
 	void WindowManager::RegisterWindow(Window* wnd)
 	{
 		wnds.push_back(wnd);
+	}
+
+	void WindowManager::UnregisterWindow(Window* wnd)
+	{
+		for (size_t i = 0; i < wnds.size(); i++)
+		{
+			if (wnds[i] == wnd)
+			{
+				wnds.erase(wnds.begin() + i);
+			}
+		}
 	}
 
 	size_t WindowManager::CountRunningWindows()

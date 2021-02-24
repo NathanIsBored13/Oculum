@@ -2,6 +2,7 @@
 #include "Window.h"
 
 #include "Events/MouseEvents.h"
+#include "WindowManager.h"
 
 namespace Oculum
 {
@@ -42,7 +43,7 @@ namespace Oculum
 		return wndClass.hInst;
 	}
 
-	Window::Window(const wchar_t* name, int width, int height, Window* parent, WindowManager* windowManager) : width(width), height(height), name(name), parent(parent)
+	Window::Window(const wchar_t* name, int width, int height, Window* parent, WindowManager* windowManager) : width(width), height(height), name(name), parent(parent), windowManager(windowManager)
 	{
 		if (parent != nullptr)
 		{
@@ -88,9 +89,9 @@ namespace Oculum
 		}
 	}
 
-	void Window::CloseWindow(int ExitCode)
+	void Window::CloseWindow(int exitCode)
 	{
-		if (parent != nullptr && ExitCode != Window::ExitCode::Closed_Due_To_Parent)
+		if (parent != nullptr && exitCode != Window::ExitCode::Closed_Due_To_Parent)
 		{
 			parent->RemoveChild(this);
 		}
@@ -98,6 +99,7 @@ namespace Oculum
 		{
 			wnd->CloseWindow(Window::ExitCode::Closed_Due_To_Parent);
 		}
+		this->exitCode = exitCode;
 		DestroyWindow(hWnd);
 	}
 
@@ -151,7 +153,7 @@ namespace Oculum
 			return 0;
 			break;
 		case WM_DESTROY:
-			PostMessage(nullptr, WM_QUIT, 0, reinterpret_cast<LONG_PTR>(this));
+			PostMessage(nullptr, WM_QUIT, exitCode, reinterpret_cast<LPARAM>(this));
 			break;
 		case WM_MOUSEMOVE:
 			stack.OnEvent(new MouseMovedEvent(0, (int)LOWORD(lParam), (int)HIWORD(lParam)));

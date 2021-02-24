@@ -15,6 +15,7 @@ namespace Oculum
 		std::optional<WPARAM> ProcessMessages();
 		void OnUpdate(float);
 		void RegisterWindow(Window* wnd);
+		void UnregisterWindow(Window* wnd);
 		size_t CountRunningWindows();
 	private:
 		std::vector<Window*> wnds;

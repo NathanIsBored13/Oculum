@@ -48,6 +48,6 @@ namespace Oculum
 		Window* parent;
 		std::vector<Window*> children;
 		const wchar_t* name;
-		int width, height;
+		int width, height, exitCode;
 	};
 }
