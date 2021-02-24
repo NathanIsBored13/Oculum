@@ -10,7 +10,7 @@ namespace Oculum
 
 	Layer::~Layer()
 	{
-		for (IEntity* entity : elements)
+		for (Entity* entity : elements)
 		{
 			delete entity;
 		}
@@ -32,7 +32,7 @@ namespace Oculum
 
 	void Layer::OnUpdate(float elapsedTime)
 	{
-		for (IEntity* entity : elements)
+		for (Entity* entity : elements)
 		{
 			entity->OnUpdate(elapsedTime);
 		}
@@ -48,13 +48,13 @@ namespace Oculum
 		{
 			child->OnRender();
 		}
-		for (IEntity* entity : elements)
+		for (Entity* entity : elements)
 		{
 			entity->OnRender();
 		}
 	}
 
-	void Layer::AddEntity(IEntity* e)
+	void Layer::AddEntity(Entity* e)
 	{
 		elements.push_back(e);
 	}
@@ -73,7 +73,7 @@ namespace Oculum
 
 	void Layer::OnEvent(Event* e)
 	{
-		for (IEntity* entity : elements)
+		for (Entity* entity : elements)
 		{
 			entity->OnEvent(e);
 		}

@@ -20,7 +20,7 @@ namespace Oculum
 		std::chrono::steady_clock::time_point clk = std::chrono::steady_clock::now();
 		while (running)
 		{
-			if (windows.ProcessMessages() && windows.GetRunningWindows() == 0)
+			if (windows.ProcessMessages() && windows.CountRunningWindows() == 0)
 			{
 				OC_INFO("all windows closed");
 			}

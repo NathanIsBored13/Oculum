@@ -1,6 +1,7 @@
 #pragma once
 
 #include "src/Application.h"
+#include "src/Entity.h"
 #include "src/Events/ApplicationEvents.h"
 #include "src/Events/KeybordEvents.h"
 #include "src/Events/MouseEvents.h"

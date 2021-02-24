@@ -42,7 +42,7 @@ namespace Oculum
 		return wndClass.hInst;
 	}
 
-	Window::Window(const wchar_t* name, int width, int height, Window* parent) : width(width), height(height), name(name), parent(parent)
+	Window::Window(const wchar_t* name, int width, int height, Window* parent, WindowManager* windowManager) : width(width), height(height), name(name), parent(parent)
 	{
 		if (parent != nullptr)
 		{
@@ -90,15 +90,30 @@ namespace Oculum
 
 	void Window::CloseWindow(int ExitCode)
 	{
-		if (parent != nullptr && ExitCode != 1)
+		if (parent != nullptr && ExitCode != Window::ExitCode::Closed_Due_To_Parent)
 		{
 			parent->RemoveChild(this);
 		}
 		for (Window* wnd : children)
 		{
-			wnd->CloseWindow(1);
+			wnd->CloseWindow(Window::ExitCode::Closed_Due_To_Parent);
 		}
 		DestroyWindow(hWnd);
+	}
+
+	WindowManager* Window::GetWindowManager()
+	{
+		return windowManager;
+	}
+
+	LayerStack* Window::GetStack()
+	{
+		return &stack;
+	}
+
+	HWND Window::GetHwnd()
+	{
+		return hWnd;
 	}
 
 	LRESULT CALLBACK Window::HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)  noexcept

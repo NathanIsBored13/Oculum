@@ -53,7 +53,7 @@ namespace Oculum
 		wnds.push_back(wnd);
 	}
 
-	size_t WindowManager::GetRunningWindows()
+	size_t WindowManager::CountRunningWindows()
 	{
 		return wnds.size();
 	}

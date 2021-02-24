@@ -1,12 +1,12 @@
 #pragma once
 
-#include "IEntity.h"
+#include "Entity.h"
 
 #include <vector>
 
 namespace Oculum
 {
-	class Layer : public IEntity
+	class Layer : public IEventListener
 	{
 		friend class LayerStack;
 	public:
@@ -14,15 +14,15 @@ namespace Oculum
 		~Layer();
 		Layer* GetChild();
 		const char* GetName();
-		void OnUpdate(float) override;
-		void OnRender() override;
-		void AddEntity(IEntity*);
+		void OnUpdate(float);
+		void OnRender();
+		void AddEntity(Entity*);
 		void Push(Layer*);
 		std::string ToString();
 		void OnEvent(Event*) override;
 	private:
 		const char* name;
 		Layer* child = nullptr;
-		std::vector<IEntity*> elements;
+		std::vector<Entity*> elements;
 	};
 }
