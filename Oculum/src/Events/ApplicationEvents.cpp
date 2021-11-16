@@ -5,7 +5,7 @@
 
 namespace Oculum
 {
-	WindowCloseEvent::WindowCloseEvent(int windowID) : Event(windowID)
+	WindowCloseEvent::WindowCloseEvent(int exitCode) : Event(), exitCode(exitCode)
 	{
 
 	}
@@ -23,21 +23,56 @@ namespace Oculum
 	const std::string WindowCloseEvent::GetString()
 	{
 		std::stringstream ss;
-		ss << "Window [" << GetWindowID() << "] was closed";
+		ss << "Window was closed with exit code " << GetExitCode();
 		return ss.str();
 	}
 
-	Event::Type WindowCloseEvent::GetType()
+	int WindowCloseEvent::GetExitCode()
+	{
+		return exitCode;
+	}
+
+	ParentCloseEvent::ParentCloseEvent(int exitCode) : WindowCloseEvent(exitCode)
+	{
+
+	}
+
+	ParentCloseEvent::~ParentCloseEvent()
+	{
+
+	}
+
+	Event::Type ParentCloseEvent::GetType()
 	{
 		return GetStaticType();
 	}
 
-	Event::Type WindowCloseEvent::GetStaticType()
+	Event::Type ParentCloseEvent::GetStaticType()
 	{
-		return Event::Type::WindowClose;
+		return Type::ParentClose;
 	}
 
-	WindowResizedEvent::WindowResizedEvent(int windowID, int x, int y) : Event(windowID), x(x), y(y)
+	ChildCloseEvent::ChildCloseEvent(int exitCode) : WindowCloseEvent(exitCode)
+	{
+
+	}
+
+	ChildCloseEvent::~ChildCloseEvent()
+	{
+
+	}
+
+	Event::Type ChildCloseEvent::GetType()
+	{
+		return GetStaticType();
+	}
+
+	Event::Type ChildCloseEvent::GetStaticType()
+	{
+		return Type::ChildClose;
+	}
+
+	WindowResizedEvent::WindowResizedEvent(int x, int y) : Event(), x(x), y(y)
 	{
 
 	}
@@ -55,7 +90,7 @@ namespace Oculum
 	const std::string WindowResizedEvent::GetString()
 	{
 		std::stringstream ss;
-		ss << "Window [" << GetWindowID() << "] was resized to [" << GetX() << ", " << GetY() << "]";
+		ss << "Window was resized to [" << GetX() << ", " << GetY() << "]";
 		return ss.str().c_str();
 	}
 
@@ -79,7 +114,7 @@ namespace Oculum
 		return y;
 	}
 
-	WindowFocusGainedEvent::WindowFocusGainedEvent(int windowID) : Event(windowID)
+	WindowFocusGainedEvent::WindowFocusGainedEvent(int windowID) : Event()
 	{
 
 	}
@@ -97,7 +132,7 @@ namespace Oculum
 	const std::string WindowFocusGainedEvent::GetString()
 	{
 		std::stringstream ss;
-		ss << "Window [" << GetWindowID() << "] gained focus";
+		ss << "Window gained focus";
 		return ss.str();
 	}
 
@@ -111,7 +146,7 @@ namespace Oculum
 		return Event::Type::WindowFocusGained;
 	}
 
-	WindowFocusLostEvent::WindowFocusLostEvent(int windowID) : Event(windowID)
+	WindowFocusLostEvent::WindowFocusLostEvent() : Event()
 	{
 
 	}
@@ -129,7 +164,7 @@ namespace Oculum
 	const std::string WindowFocusLostEvent::GetString()
 	{
 		std::stringstream ss;
-		ss << "Window [" << GetWindowID() << "] lost focus";
+		ss << "Window lost focus";
 		return ss.str();
 	}
 
@@ -143,7 +178,7 @@ namespace Oculum
 		return Event::Type::WindowFocusLost;
 	}
 
-	WindowMovedEvent::WindowMovedEvent(int windowID, int x, int y) : Event(windowID), x(x), y(y)
+	WindowMovedEvent::WindowMovedEvent(int x, int y) : Event(), x(x), y(y)
 	{
 
 	}
@@ -161,7 +196,7 @@ namespace Oculum
 	const std::string WindowMovedEvent::GetString()
 	{
 		std::stringstream ss;
-		ss << "Window [" << GetWindowID() << "] was moved to [" << GetX() << ", " << GetY() << "]";
+		ss << "Window was moved to [" << GetX() << ", " << GetY() << "]";
 		return ss.str();
 	}
 

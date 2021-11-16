@@ -2,8 +2,8 @@
 
 #include "Window.h"
 
-#include <Vector>
 #include <optional>
+#include <unordered_set>
 
 namespace Oculum
 {
@@ -12,12 +12,12 @@ namespace Oculum
 	public:
 		WindowManager();
 		~WindowManager();
+		WindowManager(WindowManager&) = delete;
 		std::optional<WPARAM> ProcessMessages();
 		void OnUpdate(float);
-		void RegisterWindow(Window* wnd);
-		void UnregisterWindow(Window* wnd);
+		void RegisterWindow(Window*);
 		size_t CountRunningWindows();
 	private:
-		std::vector<Window*> wnds;
+		std::unordered_set<Window*> wnds;
 	};
 }

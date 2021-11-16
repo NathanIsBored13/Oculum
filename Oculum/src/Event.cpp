@@ -4,7 +4,7 @@
 
 namespace Oculum
 {
-	Event::Event(int windowID) : windowID(windowID)
+	Event::Event()
 	{
 
 	}
@@ -12,11 +12,6 @@ namespace Oculum
 	Event::~Event()
 	{
 
-	}
-
-	int Event::GetWindowID() noexcept
-	{
-		return windowID;
 	}
 
 	void Event::Handled()

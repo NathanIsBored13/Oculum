@@ -2,6 +2,8 @@
 
 #include "Core.h"
 
+#include <string>
+
 namespace Oculum
 {
 	class Event
@@ -9,14 +11,13 @@ namespace Oculum
 	public:
 		enum class Type
 		{
-			WindowClose, WindowResize, WindowFocusGained, WindowFocusLost, WindowMoved,
+			ParentClose, ChildClose, WindowResize, WindowFocusGained, WindowFocusLost, WindowMoved,
 			KeyPressed, KeyReleased,
 			MouseMoved, MouseButtonPressed, MouseButtonReleased, MouseScrolled
 		};
 
-		Event(int);
+		Event();
 		virtual ~Event();
-		int GetWindowID() noexcept;
 		virtual const char* GetName() = 0;
 		virtual const std::string GetString() = 0;
 		virtual Type GetType() = 0;
@@ -24,6 +25,5 @@ namespace Oculum
 		bool IsHandled();
 	private:
 		bool handled = false;
-		int windowID;
 	};
 }

@@ -5,8 +5,8 @@
 class MainWindow : public Oculum::Window
 {
 public:
-	MainWindow(Oculum::WindowManager*);
+	MainWindow(Oculum::WindowManager* manager);
 	~MainWindow();
 	void OnUpdateClient(float) override;
-	bool OnClose() override;
+	void OnClose() override;
 };

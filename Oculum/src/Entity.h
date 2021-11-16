@@ -5,8 +5,6 @@
 namespace Oculum
 {
 	class Window;
-	class WindowManager;
-
 	class Entity : public IEventListener
 	{
 	public:
@@ -15,7 +13,6 @@ namespace Oculum
 		virtual void OnUpdate(float) = 0;
 		virtual void OnRender() = 0;
 		Window* GetWindow();
-		WindowManager* GetWindowManager();
 	private:
 		Window* window;
 	};

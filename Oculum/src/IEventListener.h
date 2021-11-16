@@ -1,42 +1,50 @@
 #pragma once
 
-#include "ocpch.h"
 
 #include "Core.h"
 #include "Event.h"
+
+#include <functional>
+#include <unordered_map>
 
 namespace Oculum
 {
 	class IEventListener
 	{
 	public:
+		virtual ~IEventListener()
+		{
+			for(std::pair<Event::Type, AbstractDispatcher*> pair : dispatchers)
+			{
+				delete pair.second;
+			}
+		}
+
 		virtual void OnEvent(Event* e)
 		{
-			for (DispatcherTypeless* dispatcher : dispatchers)
+			std::unordered_map<Event::Type, AbstractDispatcher*>::iterator iterator = dispatchers.find(e->GetType());
+			if (iterator != dispatchers.end())
 			{
-				if (e->GetType() == dispatcher->GetType())
-				{
-					dispatcher->Dispatch(e);
-				}
+				(*iterator).second->Dispatch(e);
 			}
 		}
 
 		template <class T>
 		void SubscribeEvent(std::function<bool(T*)> function)
 		{
-			dispatchers.push_back(new Dispatcher<T>(function));
+			std::pair<Event::Type, AbstractDispatcher*> pair = std::pair<Event::Type, AbstractDispatcher*>(T::GetStaticType(), new Dispatcher<T>(function));
+			dispatchers.insert(pair);
 		}
 
 	private:
-		class DispatcherTypeless
+		class AbstractDispatcher
 		{
 		public:
 			virtual void Dispatch(Event*) = 0;
-			virtual Event::Type GetType() = 0;
 		};
 
 		template <class T>
-		class Dispatcher : public DispatcherTypeless
+		class Dispatcher : public AbstractDispatcher
 		{
 		public:
 			Dispatcher(std::function<bool(T*)> function) : function(function)
@@ -51,15 +59,10 @@ namespace Oculum
 					e->Handled();
 				}
 			}
-
-			virtual Event::Type GetType() override
-			{
-				return T::GetStaticType();
-			}
 		private:
 			std::function<bool(T*)> function;
 		};
 
-		std::vector<DispatcherTypeless*> dispatchers;
+		std::unordered_map<Event::Type, AbstractDispatcher*> dispatchers = std::unordered_map<Event::Type, AbstractDispatcher*>();
 	};
 }

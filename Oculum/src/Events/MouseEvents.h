@@ -7,7 +7,7 @@ namespace Oculum
 	class MouseMovedEvent : public Event
 	{
 	public:
-		MouseMovedEvent(int, int, int);
+		MouseMovedEvent(int, int);
 		~MouseMovedEvent();
 		virtual const char* GetName() override;
 		virtual const std::string GetString() override;
@@ -22,7 +22,7 @@ namespace Oculum
 	class MouseButtonEvent : public Event
 	{
 	public:
-		MouseButtonEvent(int, bool);
+		MouseButtonEvent(bool);
 		~MouseButtonEvent();
 		bool GetButton();
 	private:
@@ -32,7 +32,7 @@ namespace Oculum
 	class MouseButtonPressedEvent : public MouseButtonEvent
 	{
 	public:
-		MouseButtonPressedEvent(int, bool);
+		MouseButtonPressedEvent(bool);
 		~MouseButtonPressedEvent();
 		virtual const char* GetName() override;
 		virtual const std::string GetString() override;
@@ -43,7 +43,7 @@ namespace Oculum
 	class MouseButtonReleasedEvent : public MouseButtonEvent
 	{
 	public:
-		MouseButtonReleasedEvent(int, bool);
+		MouseButtonReleasedEvent(bool);
 		~MouseButtonReleasedEvent();
 		virtual const char* GetName() override;
 		virtual const std::string GetString() override;

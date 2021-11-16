@@ -1,7 +1,7 @@
 #include "ocpch.h"
 #include "Window.h"
 
-#include "Events/MouseEvents.h"
+#include "Events/Events.h"
 #include "WindowManager.h"
 
 namespace Oculum
@@ -43,12 +43,13 @@ namespace Oculum
 		return wndClass.hInst;
 	}
 
-	Window::Window(const wchar_t* name, int width, int height, Window* parent, WindowManager* windowManager) : width(width), height(height), name(name), parent(parent), windowManager(windowManager)
+	Window::Window(const wchar_t* name, int width, int height, Window* parent, WindowManager* manager) : width(width), height(height), name(name), parent(parent), children(std::unordered_set<Window*>()), closing(false), manager(manager)
 	{
 		if (parent != nullptr)
 		{
-			parent->AddChild(this);
+			parent->children.insert(this);
 		}
+
 		RECT wr
 		{
 			100,
@@ -60,6 +61,8 @@ namespace Oculum
 		hWnd = CreateWindowEx(0, WindowTemplate::GetName(), name, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, CW_USEDEFAULT, CW_USEDEFAULT, wr.right - wr.left, wr.bottom - wr.top, nullptr, nullptr, WindowTemplate::GetInstance(), this);
 		ShowWindow(hWnd, SW_SHOWDEFAULT);
 		stack = LayerStack();
+
+		manager->RegisterWindow(this);
 	}
 
 	Window::~Window()
@@ -73,39 +76,42 @@ namespace Oculum
 		OnUpdateClient(fElapsed);
 	}
 
-	void Window::AddChild(Window* child)
+	void Window::OnEvent(Event* e)
 	{
-		children.push_back(child);
-	}
+		IEventListener::OnEvent(e);
 
-	void Window::RemoveChild(Window* child)
-	{
-		for (size_t i = 0; i < children.size(); i++)
+		if (!e->IsHandled())
 		{
-			if (children[i] == child)
-			{
-				children.erase(children.begin() + i);
-			}
+			stack.OnEvent(e);
 		}
 	}
 
 	void Window::CloseWindow(int exitCode)
 	{
-		if (parent != nullptr && exitCode != Window::ExitCode::Closed_Due_To_Parent)
+		closing = true;
+
+		if (parent != nullptr)
 		{
-			parent->RemoveChild(this);
+			parent->OnEvent(new ChildCloseEvent(exitCode));
+			if (!parent->IsClosing())
+			{
+				parent->children.erase(this);
+			}
 		}
+
 		for (Window* wnd : children)
 		{
-			wnd->CloseWindow(Window::ExitCode::Closed_Due_To_Parent);
+			wnd->OnEvent(new ParentCloseEvent(exitCode));
+			wnd->parent = nullptr;
 		}
-		this->exitCode = exitCode;
+
 		DestroyWindow(hWnd);
+		PostMessage(nullptr, WM_QUIT, exitCode, reinterpret_cast<LPARAM>(this));
 	}
 
-	WindowManager* Window::GetWindowManager()
+	bool Window::IsClosing()
 	{
-		return windowManager;
+		return closing;
 	}
 
 	LayerStack* Window::GetStack()
@@ -118,22 +124,35 @@ namespace Oculum
 		return hWnd;
 	}
 
+	WindowManager* Window::GetManager()
+	{
+		return manager;
+	}
+
+	Window* Window::GetParent()
+	{
+		return parent;
+	}
+
+	std::unordered_set<Window*>& Window::GetChildren()
+	{
+		return children;
+	}
+
 	LRESULT CALLBACK Window::HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)  noexcept
 	{
-		LRESULT ret;
 		if (msg == WM_NCCREATE)
 		{
 			const CREATESTRUCTW* const pCreate = reinterpret_cast<CREATESTRUCTW*>(lParam);
 			Window* const pWnd = static_cast<Window*>(pCreate->lpCreateParams);
 			SetWindowLongPtr(hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(pWnd));
 			SetWindowLongPtr(hWnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(&Window::HandleMsgThunk));
-			ret = pWnd->HandleMsg(hWnd, msg, wParam, lParam);
+			return pWnd->HandleMsg(hWnd, msg, wParam, lParam);
 		}
 		else
 		{
-			ret = DefWindowProc(hWnd, msg, wParam, lParam);
+			return  DefWindowProc(hWnd, msg, wParam, lParam);
 		}
-		return ret;
 	}
 
 	LRESULT CALLBACK Window::HandleMsgThunk(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)  noexcept
@@ -146,17 +165,11 @@ namespace Oculum
 		switch (msg)
 		{
 		case WM_CLOSE:
-			if (OnClose())
-			{
-				CloseWindow(0);
-			}
+			OnClose();
 			return 0;
 			break;
-		case WM_DESTROY:
-			PostMessage(nullptr, WM_QUIT, exitCode, reinterpret_cast<LPARAM>(this));
-			break;
 		case WM_MOUSEMOVE:
-			stack.OnEvent(new MouseMovedEvent(0, (int)LOWORD(lParam), (int)HIWORD(lParam)));
+			OnEvent(new MouseMovedEvent((int)LOWORD(lParam), (int)HIWORD(lParam)));
 			break;
 		}
 		return DefWindowProc(hWnd, msg, wParam, lParam);

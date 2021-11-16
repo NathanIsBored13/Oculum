@@ -1,9 +1,11 @@
 #include "ocpch.h"
 #include "WindowManager.h"
 
+#include "Events/ApplicationEvents.h"
+
 namespace Oculum
 {
-	WindowManager::WindowManager()
+	WindowManager::WindowManager() : wnds(std::unordered_set<Window*>())
 	{
 
 	}
@@ -17,13 +19,13 @@ namespace Oculum
 	{
 		std::optional<WPARAM> ret;
 		MSG msg;
-		while (!ret && PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
+		while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE) && !ret)
 		{
 			if (msg.message == WM_QUIT)
 			{
 				ret = msg.wParam;
 				Window* window = reinterpret_cast<Window*>(msg.lParam);
-				UnregisterWindow(window);
+				wnds.erase(window);
 				delete window;
 			}
 			else
@@ -45,18 +47,7 @@ namespace Oculum
 
 	void WindowManager::RegisterWindow(Window* wnd)
 	{
-		wnds.push_back(wnd);
-	}
-
-	void WindowManager::UnregisterWindow(Window* wnd)
-	{
-		for (size_t i = 0; i < wnds.size(); i++)
-		{
-			if (wnds[i] == wnd)
-			{
-				wnds.erase(wnds.begin() + i);
-			}
-		}
+		wnds.insert(wnd);
 	}
 
 	size_t WindowManager::CountRunningWindows()

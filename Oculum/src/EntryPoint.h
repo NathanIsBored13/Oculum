@@ -1,6 +1,9 @@
 #pragma once
 
-extern Oculum::Application* Oculum::CreateApplication();
+namespace Oculum
+{
+	extern Application* CreateApplication();
+}
 
 int CALLBACK WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int)
 {

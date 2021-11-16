@@ -7,7 +7,7 @@ namespace Oculum
 	class KeyEvent : public Event
 	{
 	public:
-		KeyEvent(int, int);
+		KeyEvent(int);
 		~KeyEvent();
 		int GetKey();
 	private:
@@ -17,7 +17,7 @@ namespace Oculum
 	class KeyPressedEvent : public KeyEvent
 	{
 	public:
-		KeyPressedEvent(int, int, bool);
+		KeyPressedEvent(int, bool);
 		~KeyPressedEvent();
 		virtual const char* GetName() override;
 		virtual const std::string GetString() override;
@@ -31,7 +31,7 @@ namespace Oculum
 	class KeyReleasedEvent : public KeyEvent
 	{
 	public:
-		KeyReleasedEvent(int, int);
+		KeyReleasedEvent(int);
 		~KeyReleasedEvent();
 		virtual const char* GetName() override;
 		virtual const std::string GetString() override;

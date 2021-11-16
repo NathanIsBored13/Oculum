@@ -1,11 +1,7 @@
 #pragma once
 
-#include "ocpch.h"
-
 #include "Core.h"
 #include "WindowManager.h"
-#include "Log.h"
-#include "Events/ApplicationEvents.h"
 
 namespace Oculum
 {
@@ -13,12 +9,12 @@ namespace Oculum
 	{
 	public:
 		Application();
+		Application(Application&) = delete;
 		virtual ~Application();
 		void Run();
-		WindowManager* GetManager();
+		WindowManager* getManager();
 	private:
-		bool running = true;
-		WindowManager windows;
+		bool running;
+		WindowManager manager;
 	};
-	Application* CreateApplication();
 }

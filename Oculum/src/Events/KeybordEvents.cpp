@@ -5,7 +5,7 @@
 
 namespace Oculum
 {
-	KeyEvent::KeyEvent(int windowID, int keyCode) : Event(windowID), keyCode(keyCode)
+	KeyEvent::KeyEvent(int keyCode) : Event(), keyCode(keyCode)
 	{
 
 	}
@@ -20,7 +20,7 @@ namespace Oculum
 		return keyCode;
 	}
 
-	KeyPressedEvent::KeyPressedEvent(int windowID, int keyCode, bool isRepeat) : KeyEvent(windowID, keyCode), isRepeat(isRepeat)
+	KeyPressedEvent::KeyPressedEvent(int keyCode, bool isRepeat) : KeyEvent(keyCode), isRepeat(isRepeat)
 	{
 
 	}
@@ -38,7 +38,7 @@ namespace Oculum
 	const std::string KeyPressedEvent::GetString()
 	{
 		std::stringstream ss;
-		ss << "Window [" << GetWindowID() << "] had key " << GetKey() << " pressed";
+		ss << "Window had key " << GetKey() << " pressed";
 		return ss.str();
 	}
 
@@ -57,7 +57,7 @@ namespace Oculum
 		return isRepeat;
 	}
 
-	KeyReleasedEvent::KeyReleasedEvent(int windowID, int keyCode) : KeyEvent(windowID, keyCode)
+	KeyReleasedEvent::KeyReleasedEvent(int keyCode) : KeyEvent(keyCode)
 	{
 
 	}
@@ -75,7 +75,7 @@ namespace Oculum
 	const std::string KeyReleasedEvent::GetString()
 	{
 		std::stringstream ss;
-		ss << "Window [" << GetWindowID() << "] had key " << GetKey() << " released";
+		ss << "Window had key " << GetKey() << " released";
 		return ss.str();
 	}
 

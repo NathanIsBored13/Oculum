@@ -19,9 +19,4 @@ namespace Oculum
 	{
 		return window;
 	}
-
-	WindowManager* Entity::GetWindowManager()
-	{
-		return window->GetWindowManager();
-	}
 }

@@ -11,6 +11,25 @@ namespace Oculum
 		~WindowCloseEvent();
 		virtual const char* GetName() override;
 		virtual const std::string GetString() override;
+		int GetExitCode();
+	private:
+		int exitCode;
+	};
+
+	class ChildCloseEvent : public WindowCloseEvent
+	{
+	public:
+		ChildCloseEvent(int);
+		~ChildCloseEvent();
+		virtual Type GetType() override;
+		static Type GetStaticType();
+	};
+
+	class ParentCloseEvent : public WindowCloseEvent
+	{
+	public:
+		ParentCloseEvent(int);
+		~ParentCloseEvent();
 		virtual Type GetType() override;
 		static Type GetStaticType();
 	};
@@ -18,7 +37,7 @@ namespace Oculum
 	class WindowResizedEvent : public Event
 	{
 	public:
-		WindowResizedEvent(int, int, int);
+		WindowResizedEvent(int, int);
 		~WindowResizedEvent();
 		virtual const char* GetName() override;
 		virtual const std::string GetString() override;
@@ -44,7 +63,7 @@ namespace Oculum
 	class WindowFocusLostEvent : public Event
 	{
 	public:
-		WindowFocusLostEvent(int);
+		WindowFocusLostEvent();
 		~WindowFocusLostEvent();
 		virtual const char* GetName() override;
 		virtual const std::string GetString() override;
@@ -55,7 +74,7 @@ namespace Oculum
 	class WindowMovedEvent : public Event
 	{
 	public:
-		WindowMovedEvent(int, int, int);
+		WindowMovedEvent(int, int);
 		~WindowMovedEvent();
 		virtual const char* GetName() override;
 		virtual const std::string GetString() override;
