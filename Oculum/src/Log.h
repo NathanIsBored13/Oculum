@@ -29,9 +29,11 @@ namespace Oculum
 	private:
 		Log();
 		~Log();
-		void Print(const char*, const char*, va_list);
-		const std::chrono::steady_clock::time_point clk;
+		void Print(const char*, const char*, WORD, va_list);
+		static void PaddedInsert(char* msg, int start, const char* str, int padlen);
 		static Log log;
+		const std::chrono::steady_clock::time_point startTime;
+		HANDLE hConsole;
 	};
 #else
 	#define OC_TRACE(...)
